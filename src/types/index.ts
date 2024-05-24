@@ -1,3 +1,4 @@
+import React, { ReactElement, ReactNode } from 'react';
 import { APP_STATUSES, TYPE } from '@/constants';
 import { GenreType, MovieType } from '@/types/movie';
 import { ADAPTER } from '@/components/utils/adapters';
@@ -69,9 +70,63 @@ export type PaginationProps = {
   page: number;
   total: number;
   onChange: (page: number) => void;
+  className?: string;
 };
 export type PaginationOnPageType = {
   selected: number;
 };
-
+export type BreadcrumbProps = {
+  nextCrumb: string | undefined;
+};
+export type BreadcrumpsType = {
+  title: string;
+  href?: string;
+};
+export type LoaderProps = {
+  isLoading: boolean;
+  children: React.ReactElement;
+};
+export type MovieProps = {
+  id: number;
+};
+export type UseMovieCardProps = {
+  movie: MovieType | MovieTypeShort;
+  type: MovieCardType;
+};
+export type PageProps = {
+  children: ReactElement;
+};
+export type RatedQueryProps = {
+  ids: number[];
+  query: string;
+};
+// export type RatedProps = {
+//   items:
+// }
+export type ModalProps = {
+  id: number;
+  name: string;
+  rating: number;
+  onSave: (obj: ModalOnSave) => void;
+  onClose: () => void;
+};
+export type ModalData = Pick<ModalProps, 'id' | 'name' | 'rating'>;
+export type ModalOnSave = {
+  id: number;
+  rating: number;
+};
+type ToggleMenuContext = {
+  menu: boolean;
+  setMenu: (menuState: boolean) => void;
+};
+type nemberedInputContext = {
+  value: number | string;
+  setValue: (state: number | string) => void;
+};
+export type numberedInputType = {
+  children: (context: nemberedInputContext) => ReactNode;
+};
+export type ToggleMenuType = {
+  children: (context: ToggleMenuContext) => ReactNode;
+};
 export type AdapterType = (typeof ADAPTER)[keyof typeof ADAPTER];
