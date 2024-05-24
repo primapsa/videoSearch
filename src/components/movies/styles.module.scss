@@ -1,0 +1,23 @@
+.dots {
+display: none;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.movies {
+  width: 980px;
+  gap: 24px;
+}
+
+.pagination {
+  justify-content: flex-end;
+}
+.title {
+  margin-bottom: 40px;
+  color: var(--color-black-black);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 140%;
+}

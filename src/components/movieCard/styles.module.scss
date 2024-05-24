@@ -1,0 +1,55 @@
+.card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  max-width: 482px;
+  width: 100%;
+  height: 218px;
+  padding: 24px;
+  background-color: var(--color-white);
+  border-radius: 12px;
+  &_movie {
+    max-width: 800px;
+    width: 100%;
+    height: 400px;
+  }
+}
+
+.title {
+  justify-content: space-between;
+  gap: 16px;
+  &__text{
+    color: var(--color-purple-500);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+
+}
+.stack {
+  height: 100%;
+  flex-grow: 1;
+  justify-content: flex-start;
+  gap: 2px
+}
+.rating {
+  margin-top: 8px;
+}
+.year {
+  color: var(--color-grey-600);
+  line-height: 125%;
+}
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.wrapper {
+  height: 170px;
+  width: 119px;
+  &_movie {
+    height: 352px;
+    width: 250px;
+  }
+}

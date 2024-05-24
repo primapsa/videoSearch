@@ -1,0 +1,15 @@
+.rating{
+  margin-top: 8px;
+  gap: 4px;
+  align-items: center !important;
+
+  &_grey {
+    color: var(--color-grey-600);
+    margin-left: 8px;
+  }
+  &_balck {
+    color: var(--color-black);
+    font-weight: 600;
+    line-height: 125%;
+  }
+}

@@ -1,0 +1,16 @@
+.genres {
+  margin-top: auto;
+  gap: 8px;
+  &__title {
+    color: var(--color-grey-600);
+    &_movie {
+      width: 140px;
+    }
+  };
+  &__items {
+  color: var(--color-black);
+  }
+  &_movie {
+    margin: 0;
+  }
+}

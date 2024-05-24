@@ -1,0 +1,16 @@
+.navigation {
+  gap: 16px;
+  &__item {
+    padding: 10px;
+    color: var(--color-black-black);
+    line-height: 140%;
+    text-decoration: none;
+    &_active {
+      color: var(--color-purple-500) !important;
+      font-weight: 700;
+      border-radius: 8px;
+      background: var(--color-purple-200);
+    }
+  }
+
+}

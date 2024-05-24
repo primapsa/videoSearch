@@ -1,0 +1,13 @@
+.text {
+  width: 140px;
+  color: var(--color-grey-600);
+}
+.value {
+  color: var(--color-black-black);
+  line-height: 125%;
+}
+.grid {
+  width: fit-content;
+  margin-top: auto;
+  gap: 8px;
+}
