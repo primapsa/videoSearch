@@ -5,7 +5,7 @@ import { InitialGenresType } from '@/types/initialSlices';
 import { GenresMock } from '@/types/genresMock';
 
 const initialState: InitialGenresType = {
-  genres: {},
+  genres: GenresMock,
 };
 
 export const fetchGenres = createAsyncThunk('genres/fetch', async (_, { rejectWithValue }) => {
