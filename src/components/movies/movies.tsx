@@ -1,22 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { SimpleGrid, Group } from '@mantine/core';
+import { SimpleGrid, Group, Stack, Box, Title } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 import queryString from 'query-string';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import s from './styles.module.scss';
 import { MovieCard } from '@/components/movieCard';
-import { PAGE, TYPE } from '@/constants';
-import { AdapterType, MovieInfoType, RateType } from '@/types';
+import { PAGE, PATH, TYPE } from '@/constants';
+import { AdapterType, ModalData, ModalOnSave, MovieInfoType, RateType } from '@/types';
 import { AppDispatchType } from '@/store';
-import { getMovies, getTotal } from '@/store/selectors';
+import { getGenres, getGenresRaw, getMovies, getRated, getTotal } from '@/store/selectors';
 import { fetchMovies } from '@/store/slices/moviesSlice';
 import Filter from '@/components/filter/filter';
 import { transformToQuery } from '@/components/utils/adapters';
 import Pagination from '@/components/pagination/pagination';
+import useMovieCard from '@/hooks/useMovieCard';
+import { addToRated } from '@/store/slices/ratedSlice';
+import { Modal } from '@/components/modal';
+import useRatedModal from '@/hooks/useRatedModal';
+import { GenreType } from '@/types/movie';
+import { getGenresName } from '@/components/utils';
 
 const Movies = () => {
   const history = useNavigate();
   const movies = useSelector(getMovies);
+  const votes = useSelector(getRated);
+  const genres = useSelector(getGenresRaw);
   // const total = useSelector(getTotal);
   const total = 100;
   const dispatch = useDispatch();
@@ -25,10 +33,10 @@ const Movies = () => {
     arrayFormat: 'bracket',
   }) as Record<string, string | number>;
   const [pages, setPages] = useState<number>(Number(query?.page) || PAGE.INIT);
+  const { modal, setModal, onModalClose, onModalSave } = useRatedModal();
 
   useEffect(() => {
     // const query = queryString.parse(loacation.search, { arrayFormat: 'bracket' });
-    console.log('TRANS', query);
     const queryToFetch = transformToQuery(query);
     //!!queryToFetch && dispatch<AppDispatchType>(fetchMovies(queryToFetch));
   }, [loacation.search]);
@@ -41,35 +49,44 @@ const Movies = () => {
     );
     history(`?${queryPaged}`, { replace: true });
   };
-  const moviesList = movies.map((movie) => {
+
+  const moviesList = movies.map((movie, id) => {
+    // const abc = useMovieCard(movie, TYPE.MOVIE);
+    const vote = votes[movie.id] || 0;
     const movieInfo: MovieInfoType = { title: movie.title, year: movie.release_date };
     const rate: RateType = { average: movie.vote_average, count: movie.vote_count };
-    //const genres = movie.genre_ids.map((e) => String(e));
-    const genres = ['1', '2', '3'];
-    const onVoteHandler = (id: number) => {
-      console.log(id);
-    };
+    const genresNames = getGenresName(genres, movie.genre_ids);
 
-    const vote = 0; // get from localstorage
+    const onVoteHandler = (id: number) => {
+      setModal({ id, name: movie.original_title, rating: vote });
+    };
+    if (id > 5) return;
+    // get from localstorage
     return (
-      <MovieCard
-        id={movie.id}
-        type={TYPE.MOVIES}
-        movie={movieInfo}
-        rate={rate}
-        genres={genres}
-        onVote={onVoteHandler}
-        vote={vote}
-        source={movie.poster_path}
-      />
+      <Link className={s.link} to={`${PATH.MOVIE}${movie.id}`} key={movie.id}>
+        <MovieCard
+          id={movie.id}
+          type={TYPE.MOVIES}
+          movie={movieInfo}
+          rate={rate}
+          genres={genresNames}
+          onVote={onVoteHandler}
+          vote={vote}
+          source={movie.poster_path}
+        />
+      </Link>
     );
   });
   return (
-    <>
+    <Stack className={s.movies}>
+      <Title className={s.title} order={2}>
+        Movies
+      </Title>
       <Filter />
       <SimpleGrid cols={2}>{moviesList}</SimpleGrid>
-      <Pagination page={pages} total={total} onChange={onPageCnange} />
-    </>
+      <Pagination className={s.pagination} page={pages} total={total} onChange={onPageCnange} />
+      {modal && <Modal {...modal} onClose={onModalClose} onSave={onModalSave} />}
+    </Stack>
   );
 };
 

@@ -1,18 +1,35 @@
 import React from 'react';
 import { Text, SimpleGrid } from '@mantine/core';
 import { MovieExtraInfo } from '@/types';
+import s from './styles.module.scss';
 
 const Extra = ({ release, revenue, runtime, budget }: MovieExtraInfo) => (
-  <SimpleGrid cols={2}>
-    <Text span>Duration</Text>
-    <Text span>{runtime}</Text>
-    <Text span>Premiere</Text>
-    <Text span>{release}</Text>
-    <Text span>Budget</Text>
-    <Text span>{budget}</Text>
-    <Text span>Gross worldwide</Text>
-    <Text span>{revenue}</Text>
+  <SimpleGrid cols={2} className={s.grid}>
+    <Text span className={s.text}>
+      Duration
+    </Text>
+    <Text span className={s.value}>
+      {runtime}
+    </Text>
+    <Text span className={s.text}>
+      Premiere
+    </Text>
+    <Text span className={s.value}>
+      {release}
+    </Text>
+    <Text span className={s.text}>
+      Budget
+    </Text>
+    <Text span className={s.value}>
+      {budget}
+    </Text>
+    <Text span className={s.text}>
+      Gross worldwide
+    </Text>
+    <Text span className={s.value}>
+      {revenue}
+    </Text>
   </SimpleGrid>
 );
 
-export default Extra;
+export default React.memo(Extra);

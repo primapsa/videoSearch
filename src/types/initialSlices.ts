@@ -1,8 +1,8 @@
-import { GenreType, MovieType, RatedMovie } from '@/types/movie';
+import { GenreType, MovieType, MovieWithTrailer, RatedMovie } from '@/types/movie';
 import { AppStatus, MovieTypeShort } from '@/types/index';
 
 export type InitialMoviesType = {
-  movies: MovieType[] | MovieTypeShort[];
+  movies: MovieTypeShort[];
   ratedMovies: RatedMovie;
   page: number;
   isLoading: boolean;
@@ -11,7 +11,7 @@ export type InitialMoviesType = {
 };
 export type InitialFilterType = {
   genres: string[];
-  years: string[];
+  years: string | null;
   ratingFrom: number | null;
   ratingTo: number | null;
   sortBy: string;
@@ -20,6 +20,12 @@ export type InitialGenresType = {
   genres: GenreType[];
 };
 export type InitialMovieType = {
-  item: MovieType | MovieTypeShort | null;
+  item: MovieWithTrailer | null;
+  status: AppStatus;
+};
+export type InitialRatedType = {
+  items: Record<string, number>;
+  filter: string | null;
+  fetched: MovieType[] | null;
   status: AppStatus;
 };

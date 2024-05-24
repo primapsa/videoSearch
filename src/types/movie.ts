@@ -70,14 +70,16 @@ type Trailer = {
   published_at: string;
   id: string;
 };
-type TrailerContainer = {
-  results: Trailer[];
+export type TrailerContainer = {
+  videos: {
+    results: Trailer[];
+  };
 };
 export type VideoProps = {
-  source: string;
+  source: string | null;
 };
 export type MovieExtraProps = {
-  source: string;
+  source: string | null;
   text: string;
   compaines: ProductionCompany[];
 };

@@ -1,9 +1,20 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { Group, MultiSelect, Select, Stack, UnstyledButton } from '@mantine/core';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import {
+  Box,
+  Button,
+  Group,
+  MultiSelect,
+  NumberInput,
+  Select,
+  Stack,
+  UnstyledButton,
+} from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 import queryString from 'query-string';
 
 import { useNavigate, useLocation } from 'react-router-dom';
+import classNames from 'classnames';
+import { lowerFirst } from '@mantine/hooks';
 import {
   getFilterGenres,
   getFilterRatingFrom,
@@ -22,8 +33,18 @@ import {
   setSortBy,
   setYears,
 } from '@/store/slices/filterSlice';
-import { compareStates, generateNumbers, generateYears } from '@/components/utils';
-import { RATING, SORT, YEAR_FROM } from '@/constants';
+import {
+  checkIsActiveFilter,
+  compareStates,
+  generateNumbers,
+  generateYears,
+} from '@/components/utils';
+import { NUMBER_RATING, RATING, SORT, YEAR_FROM } from '@/constants';
+import s from './styles.module.scss';
+import IconDown from '@/assets/icons/iconDown';
+import ToggleDropdown from '@/components/pattern/toggleDropdown';
+import NumberedInput from '@/components/pattern/numberedInput';
+import { InitialFilterType } from '@/types/initialSlices';
 
 const Filter = () => {
   const dispatch = useDispatch();
@@ -35,11 +56,18 @@ const Filter = () => {
   const ratingToFilter = useSelector(getFilterRatingTo);
   const sortByFilter = useSelector(getFilterSort);
   const years = useMemo(() => generateYears(YEAR_FROM), []);
-  const rating = useMemo(() => generateNumbers(RATING.from, RATING.to), []);
+
   const genresHandler = useCallback((genre: string[]) => dispatch(setGenres(genre)), []);
-  const releaseHandler = useCallback((year: string[]) => dispatch(setYears(year)), []);
-  const ratingFromHandler = useCallback((rate: string | null) => dispatch(setRatinFrom(rate)), []);
-  const ratingToHandler = useCallback((rate: string | null) => dispatch(setRatingTo(rate)), []);
+  const releaseHandler = useCallback((year: string | null) => dispatch(setYears(year)), []);
+  const ratingFromHandler = useCallback(
+    (rate: string | number) => dispatch(setRatinFrom(Number(rate))),
+    []
+  );
+
+  const ratingToHandler = useCallback(
+    (rate: string | number) => dispatch(setRatingTo(Number(rate))),
+    []
+  );
   const resetHandler = useCallback(() => dispatch(resetFilter()), []);
   const sortByHandler = useCallback((sort: string | null) => dispatch(setSortBy(sort)), []);
   const history = useNavigate();
@@ -56,41 +84,106 @@ const Filter = () => {
     !isStatesEquals && dispatch(setFilters(filterFromQuery));
   }, [loacation.search]);
 
+  const placholderValue = (params: any, placeholder: string) => (!params ? placeholder : '');
   return (
-    <Stack>
-      <Group>
-        <MultiSelect
-          label="Genres"
-          placeholder="Select genre"
-          data={genres}
-          value={genresFilter}
-          onChange={genresHandler}
-        />
-        <MultiSelect
-          label="Release year"
-          placeholder="Select release year"
-          value={yearsFilter}
-          onChange={releaseHandler}
-          data={years}
-        />
-        <Group>
-          <Select
+    <Stack className={s.filters}>
+      <Group className={s.line}>
+        <ToggleDropdown>
+          {({ menu, setMenu }) => (
+            <MultiSelect
+              classNames={{
+                input: classNames(s.input, { [s.input_selected]: menu }),
+                pill: s.pill,
+                pillsList: s.pilllist,
+                option: s.selected,
+              }}
+              label="Genres"
+              placeholder={placholderValue(genresFilter.length, 'Select genre')}
+              data={genres}
+              rightSection={menu ? <IconDown up /> : <IconDown />}
+              value={genresFilter}
+              onChange={genresHandler}
+              maxValues={3}
+              onDropdownClose={() => setMenu(false)}
+              onDropdownOpen={() => setMenu(true)}
+            />
+          )}
+        </ToggleDropdown>
+
+        <ToggleDropdown>
+          {({ menu, setMenu }) => (
+            <Select
+              classNames={{
+                input: classNames(s.input, { [s.input_selected]: menu }),
+                option: s.selected,
+              }}
+              label="Release year"
+              placeholder="Select release year"
+              value={yearsFilter}
+              onChange={releaseHandler}
+              data={years}
+              rightSection={menu ? <IconDown up /> : <IconDown />}
+              onDropdownClose={() => setMenu(false)}
+              onDropdownOpen={() => setMenu(true)}
+            />
+          )}
+        </ToggleDropdown>
+        <Group className={s.rating}>
+          <NumberInput
+            classNames={{
+              input: classNames(s.input, s.input_rating),
+              controls: s.controls,
+            }}
             label="Ratings"
             placeholder="From"
-            data={rating}
-            value={ratingFromFilter}
+            value={ratingFromFilter || ''}
             onChange={ratingFromHandler}
+            step={NUMBER_RATING.STEP}
+            min={NUMBER_RATING.MIN}
+            max={NUMBER_RATING.MAX}
           />
-          <Select
+          <NumberInput
+            classNames={{
+              input: classNames(s.input, s.input_rating),
+              controls: s.controls,
+            }}
             placeholder="To"
-            value={ratingToFilter}
-            data={rating}
+            value={ratingToFilter || ''}
             onChange={ratingToHandler}
+            step={NUMBER_RATING.STEP}
+            min={NUMBER_RATING.MIN}
+            max={NUMBER_RATING.MAX}
           />
         </Group>
-        <UnstyledButton onClick={resetHandler}>Reset filters</UnstyledButton>
+        <Stack className={s.container}>
+          <Button
+            className={s.reset}
+            onClick={resetHandler}
+            disabled={!checkIsActiveFilter(filters)}
+          >
+            Reset filters
+          </Button>
+        </Stack>
       </Group>
-      <Select label="Sort by" data={SORT} value={sortByFilter} onChange={sortByHandler} />
+
+      <ToggleDropdown>
+        {({ menu, setMenu }) => (
+          <Select
+            classNames={{
+              input: classNames(s.input, { [s.input_selected]: menu }),
+              option: s.selected,
+              wrapper: s.wrapper,
+            }}
+            label="Sort by"
+            data={SORT}
+            value={sortByFilter}
+            onChange={sortByHandler}
+            rightSection={menu ? <IconDown up /> : <IconDown />}
+            onDropdownClose={() => setMenu(false)}
+            onDropdownOpen={() => setMenu(true)}
+          />
+        )}
+      </ToggleDropdown>
     </Stack>
   );
 };

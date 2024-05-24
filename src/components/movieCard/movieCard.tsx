@@ -1,12 +1,14 @@
 import React from 'react';
 import { Text, Paper, Image, Box, Group, Stack, Title } from '@mantine/core';
+import classNames from 'classnames';
 import { MovieCardProps } from '@/types';
 import { Rating } from '@/components/rating';
 import { Genres } from '@/components/genres';
 import { Vote } from '@/components/vote';
 import { Extra } from '@/components/extra';
-import { TYPE } from '@/constants';
+import { GENRES_LIMIT, IMAGE_HOST, TYPE } from '@/constants';
 import s from './styles.module.scss';
+import { getYear } from '@/components/utils';
 
 const MovieCard = ({
   id,
@@ -18,25 +20,25 @@ const MovieCard = ({
   vote,
   extra,
   source,
-}: MovieCardProps) => (
-  <Paper p={24} className={s.card}>
-    <div></div>
-    <Group>
-      <Box>
-        <Image src={source} />
+}: MovieCardProps) => {
+  const isMovie = type === TYPE.MOVIE;
+  return (
+    <Paper className={classNames([s.card], { [s.card_movie]: isMovie })}>
+      <Box className={classNames([s.wrapper], { [s.wrapper_movie]: isMovie })}>
+        <Image src={`${IMAGE_HOST}${source}`} className={s.image} />
       </Box>
-      <Stack>
-        <Box>
-          <Title>{movie.title}</Title>
+      <Stack className={s.stack}>
+        <Group className={s.title}>
+          <Title className={s.title__text}>{movie.title}</Title>
           <Vote id={id} vote={vote} onVote={onVote} />
-        </Box>
-        <Text>{movie.year}</Text>
+        </Group>
+        <Text className={s.year}>{getYear(movie.year)}</Text>
         <Rating rate={rate} />
-        {type === TYPE.MOVIE && extra && <Extra {...extra} />}
-        <Genres genres={genres} />
+        {isMovie && extra && <Extra {...extra} />}
+        <Genres genres={genres} limit={GENRES_LIMIT} type={type} />
       </Stack>
-    </Group>
-  </Paper>
-);
+    </Paper>
+  );
+};
 
-export default MovieCard;
+export default React.memo(MovieCard);
