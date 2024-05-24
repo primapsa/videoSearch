@@ -3,6 +3,7 @@ import { Anchor, Text, Breadcrumbs as MantineBreadcrumbs } from '@mantine/core';
 import { BreadcrumbProps, BreadcrumpsType } from '@/types';
 import { BREADCRUMBS } from '@/constants';
 import { createBreadcrumbs } from '@/components/utils';
+import s from './styles.module.scss';
 
 const Breadcrumbs = ({ nextCrumb }: BreadcrumbProps) => {
   const [crumbs, setCrumbs] = useState<BreadcrumpsType[]>(BREADCRUMBS);
@@ -21,7 +22,7 @@ const Breadcrumbs = ({ nextCrumb }: BreadcrumbProps) => {
       <Text>{crumb.title}</Text>
     )
   );
-  return <MantineBreadcrumbs>{breadcrumbs}</MantineBreadcrumbs>;
+  return <MantineBreadcrumbs className={s.breadcrums}>{breadcrumbs}</MantineBreadcrumbs>;
 };
 
 export default React.memo(Breadcrumbs);

@@ -17,6 +17,7 @@
 
 .title {
   justify-content: space-between;
+  flex-wrap: nowrap;
   gap: 16px;
   &__text{
     color: var(--color-purple-500);

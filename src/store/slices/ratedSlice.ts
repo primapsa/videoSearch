@@ -9,7 +9,7 @@ const MOCK = {
   157336: 5,
 };
 const initialState: InitialRatedType = {
-  items: MOCK,
+  items: {},
   filter: null,
   fetched: null,
   status: APP_STATUSES.IDLE,

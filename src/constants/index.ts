@@ -12,7 +12,7 @@ export const RATING = {
 const API_BASE = 'https://proxy-psa.vercel.app/';
 export const API_BASE_URL = `${API_BASE}prx/`;
 export const IMAGE_HOST = `${API_BASE}/img/w500`;
-
+export const IMAGE_HOST_SVG = `${API_BASE}/img/original`;
 export const STATUSES = {
   OK: 200,
 };
@@ -66,4 +66,4 @@ export const NUMBER_RATING = {
   MAX: 10,
   STEP: 1,
 };
-export const VIDEO_URL = 'https://www.youtube.com/watch?v=';
+export const VIDEO_URL = 'https://www.youtube.com/embed/';

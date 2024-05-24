@@ -1,0 +1,19 @@
+.video {
+  width: 500px;
+  height: 281px;
+}
+.iframe {
+  border: none;
+  border-radius: 9px;
+}
+.stack {
+  gap: 16px
+}
+.text {
+  color: var(--color-black-black);
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%
+}

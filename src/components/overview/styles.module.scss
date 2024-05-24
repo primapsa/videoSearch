@@ -1,0 +1,18 @@
+.title {
+  color: var(--color-black-black);
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%
+}
+.overview {
+  gap: 16px;
+  padding: 20px 0;
+  border-top: 1px solid var(--color-grey-300);
+  border-bottom: 1px solid var(--color-grey-300);
+}
+.text {
+  color: var(--color-black-black);
+  line-height: 140%;
+}

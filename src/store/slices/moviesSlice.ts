@@ -2,8 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { API } from '@/api';
 import { APP_STATUSES, STATUSES } from '@/constants';
 import { InitialMoviesType } from '@/types/initialSlices';
-import { filmMock } from '@/types/filmMock';
-import { ResponseMock } from '@/types/mock';
 
 const initialState: InitialMoviesType = {
   movies: [],
@@ -15,7 +13,6 @@ const initialState: InitialMoviesType = {
 };
 
 export const fetchMovies = createAsyncThunk('movies/fetch', async (query: string, thunkAPI) => {
-  //const state = thunkAPI.getState() as RootStateType;
   try {
     const concerts = await API.fetchMovies(query);
     if (concerts.status === STATUSES.OK) {
