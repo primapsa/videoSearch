@@ -44,13 +44,5 @@ export const moviesSlice = createSlice({
   },
   initialState,
   name: 'movies',
-  reducers: {
-    // addStatus(state, action) {
-    //   // state.status = action.payload;
-    // },
-    // clearConcertsErrors(state) {
-    //   //state.errors = null;
-    // },
-  },
+  reducers: {},
 });
-//export const {} = concertSlice.actions;
