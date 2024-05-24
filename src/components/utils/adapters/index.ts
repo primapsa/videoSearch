@@ -1,21 +1,21 @@
 import { GenreType } from '@/types/movie';
 import { MultiselectDaraType, StateRecord } from '@/types';
-import { SORT_INIT } from '@/constants';
 
 export const convertToSelectData = (genres: GenreType[]): MultiselectDaraType[] =>
   [...genres].map((genre) => ({ value: String(genre.id), label: genre.name }));
 
-export const transformToQuery = (queryObj: StateRecord) => {
-  const query = ['language=en-US'];
+const transfrom = (queryObj: StateRecord, adapter: StateRecord, query: string[] = []) => {
   Object.keys(queryObj).forEach((field) => {
-    if (field in ADAPTER) {
-      // @ts-ignore
-      query.push(`${ADAPTER[field]}=${queryObj[field]}`);
+    if (field in adapter) {
+      queryObj[field] && query.push(`${adapter[field]}=${queryObj[field]}`);
     }
   });
-  return query.join('&');
+  return query?.length ? query.join('&') : '';
 };
+export const transformToQuery = (queryObj: StateRecord) =>
+  transfrom(queryObj, ADAPTER, ['language=en-US']);
 
+export const transformRatedQuery = (queryObj: StateRecord) => transfrom(queryObj, ADAPTER_RATED);
 export const ADAPTER = {
   genres: 'with_genres',
   years: 'primary_release_year',
@@ -23,4 +23,8 @@ export const ADAPTER = {
   ratingTo: 'vote_average.gte',
   sortBy: 'sort_by',
   page: 'page',
+};
+export const ADAPTER_RATED = {
+  filter: 'original_title',
+  apiPage: 'page',
 };
