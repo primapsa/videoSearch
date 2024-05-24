@@ -6,7 +6,7 @@ import { filmMock } from '@/types/filmMock';
 import { ResponseMock } from '@/types/mock';
 
 const initialState: InitialMoviesType = {
-  movies: ResponseMock.results,
+  movies: [],
   ratedMovies: {},
   page: 1,
   isLoading: false,
