@@ -38,7 +38,7 @@ const Movies = () => {
   useEffect(() => {
     // const query = queryString.parse(loacation.search, { arrayFormat: 'bracket' });
     const queryToFetch = transformToQuery(query);
-    //!!queryToFetch && dispatch<AppDispatchType>(fetchMovies(queryToFetch));
+    !!queryToFetch && dispatch<AppDispatchType>(fetchMovies(queryToFetch));
   }, [loacation.search]);
   const onPageCnange = (page: number) => {
     setPages(page);
