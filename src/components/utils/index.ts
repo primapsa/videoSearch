@@ -69,12 +69,13 @@ export const getApiPage = (current: number) => {
   const multply = current * ITEM_PER_PAGE;
   return Math.floor(API_ITEM_PER_PAGE / multply);
 };
+export const getSimpleGenreName = (movies: MovieType) => movies.genres.map((genre) => genre.name);
 export const createMovieProps = (
   movie: MovieType | MovieWithTrailer,
   type: MovieCardType
 ): MovieCardProps => {
   const vote = 0; // Get from localStorage
-  const genres = type === TYPE.MOVIE ? movie.genres.map((genre) => genre.name) : []; // write fn compare
+  const genres = type === TYPE.MOVIE ? getSimpleGenreName(movie) : []; // write fn compare
   const onVote = () => {
     console.log('VOTE!');
   };

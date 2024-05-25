@@ -1,6 +1,7 @@
 .container {
   gap:4px;
   align-items: center !important;
+  flex-wrap: nowrap;
 }
 .text {
   font-weight: 600;

@@ -47,7 +47,8 @@ export const ratedSlice = createSlice({
       state.items[String(payload.id)] = payload.rating;
     },
     removeFromRated(state, { payload }) {
-      delete state.items[String(payload.id)];
+      state.fetched = state.fetched?.filter((rated) => rated.id !== payload) || null;
+      delete state.items[String(payload)];
     },
     setSearchFilter(state, { payload }) {
       state.filter = payload;

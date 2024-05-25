@@ -1,6 +1,7 @@
 .genres {
   margin-top: auto;
   gap: 8px;
+  flex-wrap: nowrap;
   &__title {
     color: var(--color-grey-600);
     &_movie {

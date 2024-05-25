@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ModalData, ModalOnSave } from '@/types';
-import { addToRated } from '@/store/slices/ratedSlice';
+import { addToRated, removeFromRated } from '@/store/slices/ratedSlice';
 
 const useRatedModal = () => {
   const dispatch = useDispatch();
@@ -9,9 +9,10 @@ const useRatedModal = () => {
   const onModalClose = () => {
     setModal(null);
   };
-  const onModalSave = (obj: ModalOnSave) => {
-    const { id, rating } = obj;
-    dispatch(addToRated({ id, rating }));
+  const onModalSave = (ratingData: ModalOnSave) => {
+    const { id, rating } = ratingData;
+    const action = rating ? addToRated({ id, rating }) : removeFromRated(id);
+    dispatch(action);
     onModalClose();
   };
 

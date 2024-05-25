@@ -57,6 +57,8 @@ export const TRAILER_TYPE = {
   TRAILER: 'Trailer',
 };
 export const ITEM_PER_PAGE = 4;
+export const ITEM_PER_PAGE_MOVIES = 20;
+export const MAX_PAGES = 500;
 export const API_ITEM_PER_PAGE = 20;
 export const PATH = {
   MOVIE: 'movie/',

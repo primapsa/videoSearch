@@ -2,11 +2,13 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { API } from '@/api';
 import { APP_STATUSES, STATUSES } from '@/constants';
 import { InitialMoviesType } from '@/types/initialSlices';
+import { filmMock } from '@/types/filmMock';
+import { ResponseMock } from '@/types/mock';
 
 const initialState: InitialMoviesType = {
   movies: [],
   ratedMovies: {},
-  page: 1,
+  page: 0,
   isLoading: false,
   total: 0,
   status: APP_STATUSES.IDLE,

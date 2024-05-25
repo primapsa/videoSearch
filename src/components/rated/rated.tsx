@@ -1,62 +1,87 @@
 import React, { useEffect, useState } from 'react';
 import { SimpleGrid, Stack } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { SearchBar } from '@/components/searchBar';
-import { getRated, getRatedFetched, getRatedFilter } from '@/store/selectors';
-import { ITEM_PER_PAGE, PAGE, TYPE } from '@/constants';
-import { createMovieProps } from '@/components/utils';
-import usePage from '@/hooks/usePage';
+import { getGenresRaw, getRated, getRatedFetched, getRatedFilter } from '@/store/selectors';
+import { ITEM_PER_PAGE, PAGE, PATH, TYPE } from '@/constants';
+import { createMovieProps, getGenresName, getSimpleGenreName } from '@/components/utils';
 import { transformRatedQuery } from '@/components/utils/adapters';
-import { addToRated, fetchRated } from '@/store/slices/ratedSlice';
+import { fetchRated } from '@/store/slices/ratedSlice';
 import { AppDispatchType } from '@/store';
 import { MovieCard } from '@/components/movieCard';
 import { MovieType } from '@/types/movie';
 import { Pagination } from '@/components/pagination';
 import s from './styles.module.scss';
+import useRatedModal from '@/hooks/useRatedModal';
+import { Modal } from '@/components/modal';
+import movie from '@/components/movie/movie';
 
 const Rated = () => {
   const dispatch = useDispatch();
-  const [page, setPage] = useState<number>(PAGE.INIT);
+  const [page, setPage] = useState<number>(0);
   const rated = useSelector(getRated);
   const fetched = useSelector(getRatedFetched);
+  const votes = useSelector(getRated);
   const filter = useSelector(getRatedFilter);
   const ratedId = Object.keys(rated).map((id) => Number(id));
-  const total = filter ? fetched?.length || 0 : ratedId.length;
-  const getFilteredData = (movies: MovieType[] | null) => {
-    if (!movies) return null;
-    return filter ? movies.slice(page - 1, Math.min(total, page + ITEM_PER_PAGE)) : movies;
-  };
 
+  const { modal, setModal, onModalClose, onModalSave } = useRatedModal();
+  const [movies, setMovies] = useState<MovieType[]>([]);
+  const getPagedMovies = (allRated: MovieType[] | null) => {
+    if (!allRated) return null;
+    const position = page * ITEM_PER_PAGE;
+    return allRated.slice(position, Math.min(allRated.length, position + ITEM_PER_PAGE));
+  };
+  const total = Math.ceil(movies.length / ITEM_PER_PAGE);
+  useEffect(() => {
+    if (!filter) return;
+    const filtered = movies.filter((ratedItem) =>
+      ratedItem.original_title.toLowerCase().startsWith(filter.toLowerCase())
+    );
+    setMovies(filtered);
+  }, [filter]);
   const onPageChange = (currentPage: number) => {
     setPage(currentPage);
   };
+  useEffect(() => {
+    fetched && setMovies(fetched);
+  }, [fetched]);
 
   useEffect(() => {
-    if (filter) return;
-    const ids = ratedId.slice(page - 1, Math.min(total, page + ITEM_PER_PAGE));
-    // dispatch<AppDispatchType>(addToRated({ id: 157336, rate: 5 }));
-    dispatch<AppDispatchType>(fetchRated({ ids, query: '' }));
-  }, [page]);
+    dispatch<AppDispatchType>(fetchRated({ ids: ratedId, query: '' }));
+  }, []);
 
-  useEffect(() => {
-    filter && setPage(PAGE.INIT);
-    const query = transformRatedQuery({ filter });
-    dispatch<AppDispatchType>(fetchRated({ ids: ratedId, query }));
-  }, [filter]);
-
-  const ratedMovies = getFilteredData(fetched)?.map((movieItem) => (
-    <MovieCard {...createMovieProps(movieItem, TYPE.MOVIES)} />
-  ));
+  const ratedMovies = getPagedMovies(movies)?.map((movieItem) => {
+    const vote = votes[movieItem.id] || 0;
+    const genresNames = getSimpleGenreName(movieItem);
+    const onVoteHandler = (idv: number) => {
+      setModal({ id: idv, name: movieItem.original_title, rating: vote });
+    };
+    return (
+      <Link className={s.link} to={`../${PATH.MOVIE}${movieItem.id}`} key={movieItem.id}>
+        <MovieCard
+          {...createMovieProps(movieItem, TYPE.MOVIES)}
+          onVote={onVoteHandler}
+          vote={vote}
+          genres={genresNames}
+        />
+      </Link>
+    );
+  });
   return (
-    <Stack className={s.rated}>
-      <SearchBar />
-      {ratedMovies && (
-        <SimpleGrid className={s.grid} cols={2}>
-          {ratedMovies}
-        </SimpleGrid>
-      )}
-      <Pagination total={total} onChange={onPageChange} page={page} />
-    </Stack>
+    <>
+      <Stack className={s.rated}>
+        <SearchBar />
+        {ratedMovies && (
+          <SimpleGrid className={s.grid} cols={2}>
+            {ratedMovies}
+          </SimpleGrid>
+        )}
+        <Pagination total={total} onChange={onPageChange} page={page} />
+      </Stack>
+      {modal && <Modal {...modal} onClose={onModalClose} onSave={onModalSave} />}
+    </>
   );
 };
 
