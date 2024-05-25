@@ -69,16 +69,27 @@ export const getApiPage = (current: number) => {
   const multply = current * ITEM_PER_PAGE;
   return Math.floor(API_ITEM_PER_PAGE / multply);
 };
+export const formattMinutes = (min: number) => {
+  const hours = Math.floor(min / 60);
+  const minutes = min % 60;
+  const formattedHours = hours ? `${hours}h` : '';
+  const formattedMinutes = minutes ? `${String(minutes).padStart(2, '0')}m` : '';
+  return `${formattedHours} ${formattedMinutes}` || '-';
+};
+export const dateFormatt = (date: string) =>
+  new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }) || '-';
 export const getSimpleGenreName = (movies: MovieType) => movies.genres.map((genre) => genre.name);
 export const createMovieProps = (
   movie: MovieType | MovieWithTrailer,
   type: MovieCardType
 ): MovieCardProps => {
-  const vote = 0; // Get from localStorage
+  const vote = 0;
   const genres = type === TYPE.MOVIE ? getSimpleGenreName(movie) : []; // write fn compare
-  const onVote = () => {
-    console.log('VOTE!');
-  };
+  const onVote = () => {};
   const movieInfo: MovieInfoType = { title: movie.title, year: movie.release_date };
   const rate: RateType = { average: movie.vote_average, count: movie.vote_count };
   const extra: MovieExtraInfo = {

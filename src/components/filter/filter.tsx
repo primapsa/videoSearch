@@ -1,20 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import {
-  Box,
-  Button,
-  Group,
-  MultiSelect,
-  NumberInput,
-  Select,
-  Stack,
-  UnstyledButton,
-} from '@mantine/core';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { Button, Group, MultiSelect, NumberInput, Select, Stack } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 import queryString from 'query-string';
 
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
-import { lowerFirst } from '@mantine/hooks';
 import {
   getFilterGenres,
   getFilterRatingFrom,
@@ -33,18 +23,11 @@ import {
   setSortBy,
   setYears,
 } from '@/store/slices/filterSlice';
-import {
-  checkIsActiveFilter,
-  compareStates,
-  generateNumbers,
-  generateYears,
-} from '@/components/utils';
-import { NUMBER_RATING, RATING, SORT, YEAR_FROM } from '@/constants';
+import { checkIsActiveFilter, compareStates, generateYears } from '@/components/utils';
+import { NUMBER_RATING, SORT, YEAR_FROM } from '@/constants';
 import s from './styles.module.scss';
 import IconDown from '@/assets/icons/iconDown';
 import ToggleDropdown from '@/components/pattern/toggleDropdown';
-import NumberedInput from '@/components/pattern/numberedInput';
-import { InitialFilterType } from '@/types/initialSlices';
 
 const Filter = () => {
   const dispatch = useDispatch();
@@ -140,7 +123,7 @@ const Filter = () => {
             onChange={ratingFromHandler}
             step={NUMBER_RATING.STEP}
             min={NUMBER_RATING.MIN}
-            max={NUMBER_RATING.MAX}
+            max={Number(ratingToFilter) || NUMBER_RATING.MAX}
           />
           <NumberInput
             classNames={{
@@ -151,7 +134,7 @@ const Filter = () => {
             value={ratingToFilter || ''}
             onChange={ratingToHandler}
             step={NUMBER_RATING.STEP}
-            min={NUMBER_RATING.MIN}
+            min={Math.max(NUMBER_RATING.MIN, Number(ratingFromFilter))}
             max={NUMBER_RATING.MAX}
           />
         </Group>

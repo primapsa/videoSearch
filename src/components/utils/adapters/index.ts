@@ -19,8 +19,8 @@ export const transformRatedQuery = (queryObj: StateRecord) => transfrom(queryObj
 export const ADAPTER = {
   genres: 'with_genres',
   years: 'primary_release_year',
-  ratingFrom: 'vote_average.lte',
-  ratingTo: 'vote_average.gte',
+  ratingFrom: 'vote_average.gte',
+  ratingTo: 'vote_average.lte',
   sortBy: 'sort_by',
   page: 'page',
 };

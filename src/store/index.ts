@@ -20,7 +20,14 @@ const rootReducer = combineReducers({
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(thunk),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['persist/PERSIST'],
+        ignoredActionPaths: ['register', 'rehydrate'],
+        ignoredPaths: ['register'],
+      },
+    }).prepend(thunk),
 });
 
 const persistor = persistStore(store);

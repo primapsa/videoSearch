@@ -3,6 +3,7 @@ import Movies from '@/components/movies/movies';
 import MoviePage from '@/pages/MoviePage';
 import RatedPage from '@/pages/RatedPage';
 import MoviesPage from '@/pages/MoviesPage';
+import Page404 from '@/pages/Page404';
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: '/rated/',
     element: <RatedPage />,
+  },
+  {
+    path: '*',
+    element: <Page404 />,
   },
 ]);
 

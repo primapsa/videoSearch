@@ -3,8 +3,9 @@ import { Group, Stack, Title } from '@mantine/core';
 import { Navigation } from '@/components/navigation';
 import Logo from '@/assets/icons/logo';
 import s from './styles.module.scss';
+import { AsideProps } from '@/types';
 
-const Aside = () => (
+const Aside = ({ withoutNavigate }: AsideProps) => (
   <Stack className={s.aside}>
     <Group className={s.logo}>
       <Logo />
@@ -12,7 +13,7 @@ const Aside = () => (
         ArrowFlicks
       </Title>
     </Group>
-    <Navigation />
+    {!withoutNavigate && <Navigation />}
   </Stack>
 );
 

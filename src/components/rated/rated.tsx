@@ -3,10 +3,9 @@ import { SimpleGrid, Stack } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { SearchBar } from '@/components/searchBar';
-import { getGenresRaw, getRated, getRatedFetched, getRatedFilter } from '@/store/selectors';
-import { ITEM_PER_PAGE, PAGE, PATH, TYPE } from '@/constants';
-import { createMovieProps, getGenresName, getSimpleGenreName } from '@/components/utils';
-import { transformRatedQuery } from '@/components/utils/adapters';
+import { getRated, getRatedFetched, getRatedFilter, getRatedStatus } from '@/store/selectors';
+import { APP_STATUSES, ITEM_PER_PAGE, PATH, TYPE } from '@/constants';
+import { createMovieProps, getSimpleGenreName } from '@/components/utils';
 import { fetchRated } from '@/store/slices/ratedSlice';
 import { AppDispatchType } from '@/store';
 import { MovieCard } from '@/components/movieCard';
@@ -15,25 +14,31 @@ import { Pagination } from '@/components/pagination';
 import s from './styles.module.scss';
 import useRatedModal from '@/hooks/useRatedModal';
 import { Modal } from '@/components/modal';
-import movie from '@/components/movie/movie';
+import { withEmptyContent, withLoading } from '@/HOC';
+import { EmptyRated } from '@/components/emptyContent';
 
 const Rated = () => {
   const dispatch = useDispatch();
-  const [page, setPage] = useState<number>(0);
   const rated = useSelector(getRated);
   const fetched = useSelector(getRatedFetched);
   const votes = useSelector(getRated);
   const filter = useSelector(getRatedFilter);
   const ratedId = Object.keys(rated).map((id) => Number(id));
+  const status = useSelector(getRatedStatus);
 
   const { modal, setModal, onModalClose, onModalSave } = useRatedModal();
   const [movies, setMovies] = useState<MovieType[]>([]);
+  const [page, setPage] = useState<number>(0);
+
+  const isLoading = status === APP_STATUSES.LOADING;
+  const isEmptyState = status === APP_STATUSES.SUCCESS && !movies.length;
+  const total = Math.ceil(movies.length / ITEM_PER_PAGE);
   const getPagedMovies = (allRated: MovieType[] | null) => {
     if (!allRated) return null;
     const position = page * ITEM_PER_PAGE;
     return allRated.slice(position, Math.min(allRated.length, position + ITEM_PER_PAGE));
   };
-  const total = Math.ceil(movies.length / ITEM_PER_PAGE);
+
   useEffect(() => {
     if (!filter) return;
     const filtered = movies.filter((ratedItem) =>
@@ -44,6 +49,7 @@ const Rated = () => {
   const onPageChange = (currentPage: number) => {
     setPage(currentPage);
   };
+
   useEffect(() => {
     fetched && setMovies(fetched);
   }, [fetched]);
@@ -69,17 +75,24 @@ const Rated = () => {
       </Link>
     );
   });
+
+  const Content = () => (
+    <Stack className={s.rated}>
+      <SearchBar />
+      {ratedMovies && (
+        <SimpleGrid className={s.grid} cols={2}>
+          {ratedMovies}
+        </SimpleGrid>
+      )}
+      <Pagination total={total} onChange={onPageChange} page={page} />
+    </Stack>
+  );
+  const ContentWithEmtyState = withEmptyContent(Content, EmptyRated, isEmptyState);
+  const ContentWithLoading = withLoading(ContentWithEmtyState, isLoading);
+
   return (
     <>
-      <Stack className={s.rated}>
-        <SearchBar />
-        {ratedMovies && (
-          <SimpleGrid className={s.grid} cols={2}>
-            {ratedMovies}
-          </SimpleGrid>
-        )}
-        <Pagination total={total} onChange={onPageChange} page={page} />
-      </Stack>
+      <ContentWithLoading />
       {modal && <Modal {...modal} onClose={onModalClose} onSave={onModalSave} />}
     </>
   );

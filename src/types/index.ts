@@ -95,6 +95,9 @@ export type UseMovieCardProps = {
 };
 export type PageProps = {
   children: ReactElement;
+} & AsideProps;
+export type AsideProps = {
+  withoutNavigate?: boolean;
 };
 export type RatedQueryProps = {
   ids: number[];

@@ -1,14 +1,16 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { TextInput, Button, Group, Title } from '@mantine/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { clearSearchFilter, setSearchFilter } from '@/store/slices/ratedSlice';
 import { AppDispatchType } from '@/store';
 import s from './styles.module.scss';
 import SearchIcon from '@/assets/icons/searchIcon';
+import { getRatedFilter } from '@/store/selectors';
 
 const SearchBar = () => {
+  const filter = useSelector(getRatedFilter) || '';
   const dispatch = useDispatch();
-  const [text, setText] = useState<string>('');
+  const [text, setText] = useState<string>(filter);
   const onChangeHandler = (letter: ChangeEvent<HTMLInputElement>) => {
     const { value } = letter.target;
     setText(value);

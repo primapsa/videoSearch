@@ -4,6 +4,7 @@ import { APP_STATUSES, STATUSES } from '@/constants';
 import { InitialMoviesType } from '@/types/initialSlices';
 import { filmMock } from '@/types/filmMock';
 import { ResponseMock } from '@/types/mock';
+import App from '@/App';
 
 const initialState: InitialMoviesType = {
   movies: [],
@@ -33,6 +34,7 @@ export const moviesSlice = createSlice({
         const { payload } = action;
         state.movies = payload.results;
         state.total = payload.total_pages;
+        state.status = APP_STATUSES.SUCCESS;
       })
       .addCase(fetchMovies.pending, (state) => {
         state.status = APP_STATUSES.LOADING;
@@ -43,5 +45,10 @@ export const moviesSlice = createSlice({
   },
   initialState,
   name: 'movies',
-  reducers: {},
+  reducers: {
+    setMovieStatus(state, { payload }) {
+      state.status = payload;
+    },
+  },
 });
+export const { setMovieStatus } = moviesSlice.actions;

@@ -4,10 +4,10 @@ import { PageProps } from '@/types';
 import s from './styles.module.scss';
 import Aside from '../aside/aside';
 
-const Page = ({ children }: PageProps) => (
+const Page = ({ children, withoutNavigate = false }: PageProps) => (
   <Grid columns={100}>
     <Grid.Col span={20} className={s.col}>
-      <Aside />
+      <Aside withoutNavigate={withoutNavigate} />
     </Grid.Col>
     <Grid.Col className={s.content} span={80}>
       {children}

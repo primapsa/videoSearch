@@ -6,9 +6,10 @@ import Page from '@/components/page/page';
 const MoviePage = () => {
   const { id } = useParams();
   const movieId = Number(id);
+
   return (
     <Page>
-      <Movie id={movieId}></Movie>
+      <Movie id={movieId} />
     </Page>
   );
 };

@@ -19,7 +19,7 @@ const Breadcrumbs = ({ nextCrumb }: BreadcrumbProps) => {
         {crumb.title}
       </Anchor>
     ) : (
-      <Text>{crumb.title}</Text>
+      <Text key={index}>{crumb.title}</Text>
     )
   );
   return <MantineBreadcrumbs className={s.breadcrums}>{breadcrumbs}</MantineBreadcrumbs>;
