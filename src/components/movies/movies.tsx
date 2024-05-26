@@ -78,7 +78,9 @@ const Movies = () => {
   });
   const MoviesList = () => (
     <>
-      <SimpleGrid cols={2}>{moviesList}</SimpleGrid>
+      <SimpleGrid className={s.grid} cols={2}>
+        {moviesList}
+      </SimpleGrid>
       <Pagination
         className={s.pagination}
         page={pages}

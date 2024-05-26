@@ -15,14 +15,16 @@ const Breadcrumbs = ({ nextCrumb }: BreadcrumbProps) => {
   }, [nextCrumb]);
   const breadcrumbs = crumbs.map((crumb, index) =>
     crumb.href ? (
-      <Anchor href={crumb.href} key={index}>
+      <Anchor className={s.breadcrums} href={crumb.href} key={index}>
         {crumb.title}
       </Anchor>
     ) : (
-      <Text key={index}>{crumb.title}</Text>
+      <Text className={s.breadcrums} key={index}>
+        {crumb.title}
+      </Text>
     )
   );
-  return <MantineBreadcrumbs className={s.breadcrums}>{breadcrumbs}</MantineBreadcrumbs>;
+  return <MantineBreadcrumbs className={s.container}>{breadcrumbs}</MantineBreadcrumbs>;
 };
 
 export default React.memo(Breadcrumbs);

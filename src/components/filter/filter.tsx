@@ -79,6 +79,8 @@ const Filter = () => {
                 pill: s.pill,
                 pillsList: s.pilllist,
                 option: s.selected,
+                label: s.label,
+                wrapper: s.wrapper,
               }}
               label="Genres"
               placeholder={placholderValue(genresFilter.length, 'Select genre')}
@@ -99,6 +101,8 @@ const Filter = () => {
               classNames={{
                 input: classNames(s.input, { [s.input_selected]: menu }),
                 option: s.selected,
+                label: s.label,
+                wrapper: s.wrapper,
               }}
               label="Release year"
               placeholder="Select release year"
@@ -116,6 +120,7 @@ const Filter = () => {
             classNames={{
               input: classNames(s.input, s.input_rating),
               controls: s.controls,
+              label: s.label,
             }}
             label="Ratings"
             placeholder="From"
@@ -129,6 +134,7 @@ const Filter = () => {
             classNames={{
               input: classNames(s.input, s.input_rating),
               controls: s.controls,
+              label: s.label,
             }}
             placeholder="To"
             value={ratingToFilter || ''}
@@ -156,6 +162,8 @@ const Filter = () => {
               input: classNames(s.input, { [s.input_selected]: menu }),
               option: s.selected,
               wrapper: s.wrapper,
+              root: s.input_sort,
+              label: s.label,
             }}
             label="Sort by"
             data={SORT}

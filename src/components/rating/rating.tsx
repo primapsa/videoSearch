@@ -6,7 +6,13 @@ import s from './styles.module.scss';
 
 const Rating = ({ rate }: RatingProps) => (
   <Group className={s.rating}>
-    <RatingMantine count={1} readOnly value={1} size="30px" />
+    <RatingMantine
+      count={1}
+      readOnly
+      value={1}
+      size="30px"
+      classNames={{ symbolBody: s.symbolBody }}
+    />
     <Text className={s.rating_balck}>{rate.average.toFixed(1)}</Text>
     <Text className={s.rating_grey}>{formattViews(rate.count)}</Text>
   </Group>

@@ -7,3 +7,9 @@
   align-items: flex-start;
   gap: 20px;
 }
+@media (min-width: 300px) and (max-width: 580px) {
+ .extra{
+   padding: 10px;
+ }
+}
+

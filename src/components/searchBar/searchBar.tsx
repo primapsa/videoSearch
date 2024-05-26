@@ -27,7 +27,9 @@ const SearchBar = () => {
 
   return (
     <Group className={s.search}>
-      <Title order={2}>Rated movies</Title>
+      <Title className={s.title} order={2}>
+        Rated movies
+      </Title>
       <TextInput
         classNames={{ input: s.input }}
         placeholder="Search movie title"
@@ -45,7 +47,7 @@ const SearchBar = () => {
           </Button>
         }
         leftSection={<SearchIcon />}
-        rightSectionWidth="90px"
+        rightSectionWidth="100px"
       />
     </Group>
   );

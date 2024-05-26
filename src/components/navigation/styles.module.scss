@@ -12,5 +12,9 @@
       background: var(--color-purple-200);
     }
   }
-
+}
+@media (min-width: 300px) and (max-width: 900px) {
+  .navigation {
+    gap: 10px;
+  }
 }

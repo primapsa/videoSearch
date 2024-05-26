@@ -15,3 +15,16 @@
     margin: 0;
   }
 }
+@media (min-width: 300px) and (max-width: 530px) {
+ .genres {
+   gap: 4px;
+   margin-top: 0;
+   &__title {
+    display: none;
+   }
+   &__items {
+     font-size: 12px;
+   }
+ }
+
+}

@@ -7,10 +7,10 @@ import { MovieExtra } from '@/components/movieExtra';
 import { clearMovie, fetchMovie, setMovieStatus } from '@/store/slices/movieSlice';
 import { AppDispatchType } from '@/store';
 import { APP_STATUSES, TYPE } from '@/constants';
-import { getGenresRaw, getMovie, getMovieStatus, getRated } from '@/store/selectors';
+import { getMovie, getMovieStatus, getRated } from '@/store/selectors';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { MovieProps } from '@/types';
-import { createMovieProps, getGenresName, getTrailer } from '@/components/utils';
+import { createMovieProps, getTrailer } from '@/components/utils';
 import s from './styles.module.scss';
 import useRatedModal from '@/hooks/useRatedModal';
 import { Modal } from '@/components/modal';
@@ -47,7 +47,7 @@ const Movie = ({ id }: MovieProps) => {
   const movieProps = movie && createMovieProps(movie, TYPE.MOVIE);
   const movieTrailer = movie && getTrailer(movie);
   const vote = (movie && votes[movie.id]) || 0;
-  // @ts-ignore
+
   const MovieContent = () => (
     <>
       {movie && (

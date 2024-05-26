@@ -11,3 +11,13 @@
 .companies {
   align-items: center !important;
 }
+@media (min-width: 300px) and (max-width: 580px) {
+  .logo {
+    width: 20px;
+    height: 20px;
+  }
+  .text {
+    font-size: 14px;
+    font-weight: 400;
+  }
+}

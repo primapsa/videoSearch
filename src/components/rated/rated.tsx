@@ -77,10 +77,10 @@ const Rated = () => {
   });
 
   const Content = () => (
-    <Stack className={s.rated}>
+    <Stack className={s.ratedMovies}>
       <SearchBar />
       {ratedMovies && (
-        <SimpleGrid className={s.grid} cols={2}>
+        <SimpleGrid className={s.gridRated} cols={2}>
           {ratedMovies}
         </SimpleGrid>
       )}

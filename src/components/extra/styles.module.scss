@@ -11,3 +11,8 @@
   margin-top: auto;
   gap: 8px;
 }
+@media (min-width: 300px) and (max-width: 580px) {
+  .text, .value{
+    font-size: 12px;
+  }
+}

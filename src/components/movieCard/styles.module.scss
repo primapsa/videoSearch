@@ -28,6 +28,8 @@
   }
 
 }
+
+
 .stack {
   height: 100%;
   flex-grow: 1;
@@ -54,3 +56,29 @@
     width: 250px;
   }
 }
+@media (min-width: 531px) and (max-width: 1280px) {
+  .card {
+    max-width: 100%;
+  }
+}
+@media (min-width: 300px) and (max-width: 530px) {
+  .card {
+    max-width: 100%;
+    padding: 10px;
+    height: fit-content;
+  }
+  .title__text {
+    font-size: 16px;
+  }
+  .year {
+    font-size: 14px;
+  }
+  .wrapper {
+    height: 120px;
+    width: 100px;
+  }
+  .stack {
+    justify-content: space-between !important;
+  }
+}
+

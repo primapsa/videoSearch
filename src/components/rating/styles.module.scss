@@ -1,5 +1,5 @@
 .rating{
-  margin-top: 8px;
+  margin-top: 6px;
   gap: 4px;
   align-items: center !important;
 
@@ -8,8 +8,19 @@
     margin-left: 8px;
   }
   &_balck {
+    font-feature-settings: 'clig' off, 'liga' off;
     color: var(--color-black);
     font-weight: 600;
     line-height: 125%;
+  }
+}
+@media (min-width: 300px) and (max-width: 530px) {
+  .rating_balck, .rating_grey {
+     font-size: 14px;
+  }
+  .symbolBody {
+    svg {
+      height: 20px;
+    }
   }
 }

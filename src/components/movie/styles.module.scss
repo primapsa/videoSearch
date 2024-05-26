@@ -1,4 +1,12 @@
 .rated {
   max-width: 800px;
   width: 100%;
+  gap: 20px;
+}
+@media (min-width: 300px) and (max-width: 1000px) {
+  .rated {
+    max-width: 100%;
+    padding: 0 20px;
+
+  }
 }

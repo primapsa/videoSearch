@@ -1,5 +1,5 @@
 .search {
-  padding-top: 40px;
+  align-items: center !important;
   justify-content: space-between;
   width: 980px;
 }
@@ -12,19 +12,46 @@
   &:focus{
     outline: 1px solid var(--color-purple-500);
   }
+
 }
 .button {
+  margin-right: 10px;
   color: var(--color-white);
   font-weight: 600;
   line-height: 140%;
   border-radius: 8px;
   padding: 6px 20px;
+
   background-color: var(--color-purple-500);
   &:hover {
     background-color: var(--color-purple-400);
   }
   &:active {
     background-color: var(--color-purple-600);
+  }
+}
+.title {
+  color: var(--color-black-black);
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 140%;
+}
+@media (min-width: 300px) and (max-width: 1280px) {
+  .search {
+    width: 100%;
+  }
+}
+@media (min-width: 300px) and (max-width: 520px) {
+  .search {
+   align-items: center;
+    justify-content: center;
+  }
+  .input {
+    width: 100%;
+  }
+  .title {
+    font-size: 20px;
   }
 }
 

@@ -17,3 +17,12 @@
   font-weight: 700;
   line-height: 100%
 }
+@media (min-width: 300px) and (max-width: 580px) {
+  .video {
+    width: 280px;
+    height: auto;
+  }
+  .text {
+    font-size: 16px;
+  }
+}

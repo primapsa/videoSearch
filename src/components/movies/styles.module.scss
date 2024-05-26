@@ -7,15 +7,39 @@ display: none;
 }
 
 .movies {
+  margin-top: 8px;
   width: 980px;
   gap: 24px;
 }
+@media (min-width: 1281px) and (max-width: 1440px) {
+  .movies {
+    width: 980px;
+  }
 
+}
+@media (min-width: 300px) and (max-width: 1280px) {
+  .movies {
+    width: 100%;
+    padding: 0 30px;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (min-width: 300px) and (max-width: 530px) {
+  .movies {
+    padding: 0 10px;
+  }
+  .title {
+    margin-top: 20px;
+    font-size: 20px !important;
+    text-align: center;
+  }
+}
 .pagination {
   justify-content: flex-end;
 }
 .title {
-  margin-bottom: 40px;
   color: var(--color-black-black);
   font-size: 32px;
   font-weight: 700;
