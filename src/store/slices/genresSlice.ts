@@ -2,10 +2,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { API } from '@/api';
 import { ERRORS, STATUSES } from '@/constants';
 import { InitialGenresType } from '@/types/initialSlices';
-import { GenresMock } from '@/types/genresMock';
 
 const initialState: InitialGenresType = {
-  genres: GenresMock,
+  genres: [],
 };
 
 export const fetchGenres = createAsyncThunk('genres/fetch', async (_, { rejectWithValue }) => {
