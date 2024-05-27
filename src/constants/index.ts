@@ -9,10 +9,11 @@ export const RATING = {
   from: 1,
   to: 10,
 };
-const API_BASE = 'https://proxy-psa.vercel.app/';
-export const API_BASE_URL = `${API_BASE}prx/`;
-export const IMAGE_HOST = `${API_BASE}/img/w500`;
-export const IMAGE_HOST_SVG = `${API_BASE}/img/original`;
+
+const API_BASE = 'https://proxy2-production.up.railway.app';
+export const API_BASE_URL = `${API_BASE}/proxy/`;
+export const IMAGE_HOST = `${API_BASE_URL}/img/w500`;
+export const IMAGE_HOST_SVG = `${API_BASE_URL}/img/original`;
 export const STATUSES = {
   OK: 200,
 };

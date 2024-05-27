@@ -6,25 +6,21 @@ import { MovieType, MovieWithTrailer } from '@/types/movie';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
-  headers: {
-    Authorization:
-      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMThlZjVjOTFjNDkzNDA5NGY2ZTk3YzUzNDEwYjQ1MyIsInN1YiI6IjY2M2Y5NmVjMTMyNzIxZjUxODIxMGJjNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.MHRIcWru0tXRfowkGqX1dJnfJoTCMAnKn3WDWY5ilYQ',
-  },
 });
 
 export const API = {
   fetchMovies(params: string) {
     const query: string = params ? `?${params}` : '';
-    return axiosInstance.get<MoviesResponseType>(`discover/movie${query}`);
+    return axiosInstance.get<MoviesResponseType>(`/movies${query}`);
   },
   fetchGenres() {
-    return axiosInstance.get<ResponseGenresType>('genre/movie/list');
+    return axiosInstance.get<ResponseGenresType>('/genres');
   },
   fetchMovie(id: number) {
-    return axiosInstance.get<MovieWithTrailer>(`movie/${id}?append_to_response=videos`);
+    return axiosInstance.get<MovieWithTrailer>(`/detail/movie/${id}?append_to_response=videos`);
   },
   fetchRated(id: number, params: string) {
     const query = params ? `?${params}` : '';
-    return axiosInstance.get<MovieType>(`movie/${id}${query}`);
+    return axiosInstance.get<MovieType>(`/detail/movie/${id}${query}`);
   },
 };
