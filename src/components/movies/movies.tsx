@@ -31,6 +31,7 @@ const Movies = () => {
   const query = queryString.parse(loacation.search, {
     arrayFormat: 'bracket',
   }) as Record<string, string | number>;
+
   const [pages, setPages] = useState<number>(Number(query?.page) || 0);
   const { modal, setModal, onModalClose, onModalSave } = useRatedModal();
   const totalPages = Math.min(Math.ceil(total / ITEM_PER_PAGE_MOVIES), MAX_PAGES);
@@ -43,7 +44,7 @@ const Movies = () => {
   }, [loacation.search]);
   const onPageCnange = (page: number) => {
     setPages(page);
-    query.page = String(page);
+    query.page = String(page + 1);
     const queryPaged = queryString.stringify(
       { ...query },
       { arrayFormat: 'bracket', skipNull: true }
@@ -60,7 +61,7 @@ const Movies = () => {
     const onVoteHandler = (idv: number) => {
       setModal({ id: idv, name: movie.original_title, rating: vote });
     };
-
+    console.log('PAGE', pages);
     return (
       <Link className={s.link} to={`${PATH.MOVIE}${movie.id}`} key={movie.id}>
         <MovieCard

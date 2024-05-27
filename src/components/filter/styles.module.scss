@@ -46,13 +46,16 @@
   border: 1px solid var(--color-grey-300);
   padding: 8px 12px;
   &_selected {
-    border-color: var(--color-purple-500);
+   border-color: var(--color-purple-500);
   }
   &_rating {
     width: 138px;
   }
   &_sort {
     align-self: flex-end !important;
+  }
+  &:focus{
+    border-color: var(--color-purple-500);
   }
 }
 .controls {

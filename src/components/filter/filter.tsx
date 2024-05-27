@@ -99,7 +99,7 @@ const Filter = () => {
           {({ menu, setMenu }) => (
             <Select
               classNames={{
-                input: classNames(s.input, { [s.input_selected]: menu }),
+                input: classNames(s.input),
                 option: s.selected,
                 label: s.label,
                 wrapper: s.wrapper,
