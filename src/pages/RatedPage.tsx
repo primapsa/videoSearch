@@ -5,7 +5,6 @@ import Rated from '@/components/rated/rated';
 import { APP_STATUSES } from '@/constants';
 import { setRatedStatus } from '@/store/slices/ratedSlice';
 
-const Rated2: React.FC = () => <div>Rated Component</div>;
 const RatedPage = () => {
   const dispatch = useDispatch();
 

@@ -61,7 +61,7 @@ const Movies = () => {
     const onVoteHandler = (idv: number) => {
       setModal({ id: idv, name: movie.original_title, rating: vote });
     };
-    console.log('PAGE', pages);
+
     return (
       <Link className={s.link} to={`${PATH.MOVIE}${movie.id}`} key={movie.id}>
         <MovieCard
