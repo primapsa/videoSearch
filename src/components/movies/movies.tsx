@@ -30,6 +30,7 @@ const Movies = () => {
   const moviesList = movies.map((movie, id) => {
     const vote = votes[movie.id] || 0;
     const movieProps = createMoviesProps(movie);
+
     const genresNames = getGenresName(genres, movie.genre_ids);
 
     const onVoteHandler = (idv: number) => {

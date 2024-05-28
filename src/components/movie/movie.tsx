@@ -15,16 +15,17 @@ import s from './styles.module.scss';
 import useRatedModal from '@/hooks/useRatedModal';
 import { Modal } from '@/components/modal';
 import { withLoading } from '@/HOC';
+import useStatus from '@/hooks/useStatus';
 
 const Movie = ({ id }: MovieProps) => {
   const navigate = useNavigate();
   const movie = useSelector(getMovie || {});
+  const { status, isLoading, isError } = useStatus();
+  const { modal, setModal, onModalClose, onModalSave } = useRatedModal();
+
   const votes = useSelector(getRated);
   const dispatch = useDispatch();
-  const status = useSelector(getMovieStatus);
-  const { modal, setModal, onModalClose, onModalSave } = useRatedModal();
-  const isLoading = status === APP_STATUSES.LOADING;
-  const isError = status === APP_STATUSES.ERROR;
+
   const currentCrumb = movie?.title;
 
   useEffect(() => {
