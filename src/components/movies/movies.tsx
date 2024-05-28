@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { SimpleGrid, Stack, Title } from '@mantine/core';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -32,9 +32,9 @@ const Movies = () => {
     const movieProps = createMoviesProps(movie);
     const genresNames = getGenresName(genres, movie.genre_ids);
 
-    const onVoteHandler = useCallback((idv: number) => {
+    const onVoteHandler = (idv: number) => {
       setModal({ id: idv, name: movie.original_title, rating: vote });
-    }, []);
+    };
 
     return (
       <Link className={s.link} to={`${PATH.MOVIE}${movie.id}`} key={movie.id}>
