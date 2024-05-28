@@ -9,6 +9,7 @@ import { Extra } from '@/components/extra';
 import { GENRES_LIMIT, IMAGE_HOST, TYPE } from '@/constants';
 import s from './styles.module.scss';
 import { getYear } from '@/components/utils';
+import noPoster from '@/assets/noPoster.png';
 
 const MovieCard = ({
   id,
@@ -22,10 +23,11 @@ const MovieCard = ({
   source,
 }: MovieCardProps) => {
   const isMovie = type === TYPE.MOVIE;
+  const checkSource = () => (source ? `${IMAGE_HOST}${source}` : noPoster);
   return (
     <Paper className={classNames([s.card], { [s.card_movie]: isMovie })}>
       <Box className={classNames([s.wrapper], { [s.wrapper_movie]: isMovie })}>
-        <Image src={`${IMAGE_HOST}${source}`} className={s.image} />
+        <Image src={checkSource()} className={s.image} />
       </Box>
       <Stack className={s.stack}>
         <Group className={s.title}>
