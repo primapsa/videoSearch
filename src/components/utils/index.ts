@@ -8,7 +8,14 @@ import {
   RateType,
   StateRecord,
 } from '@/types';
-import { API_ITEM_PER_PAGE, BREADCRUMBS, ITEM_PER_PAGE, TRAILER_TYPE, TYPE } from '@/constants';
+import {
+  API_ITEM_PER_PAGE,
+  BREADCRUMBS,
+  ITEM_PER_PAGE,
+  MAX_PAGES,
+  TRAILER_TYPE,
+  TYPE,
+} from '@/constants';
 import { GenreType, MovieType, MovieWithTrailer, TrailerContainer } from '@/types/movie';
 import { InitialFilterType } from '@/types/initialSlices';
 
@@ -83,6 +90,7 @@ export const getPagedMovies = (allRated: MovieType[] | null, page: number): null
 };
 
 export const getTotalPages = (all: number): number => Math.ceil(all / ITEM_PER_PAGE);
+export const getTotalPagesLimit = (all: number) => Math.min(getTotalPages(all), MAX_PAGES);
 export const dateFormatt = (date: string) =>
   new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -90,6 +98,18 @@ export const dateFormatt = (date: string) =>
     day: 'numeric',
   }) || '-';
 export const getSimpleGenreName = (movies: MovieType) => movies.genres.map((genre) => genre.name);
+export const createMoviesProps = (movie: MovieTypeShort | MovieType | MovieWithTrailer) => {
+  const { id } = movie;
+  const movieInfo: MovieInfoType = { title: movie.title, year: movie.release_date };
+  const rate: RateType = { average: movie.vote_average, count: movie.vote_count };
+  const source = movie.poster_path;
+  return {
+    id,
+    movie: movieInfo,
+    rate,
+    source,
+  };
+};
 export const createMovieProps = (
   movie: MovieType | MovieWithTrailer,
   type: MovieCardType
@@ -97,8 +117,7 @@ export const createMovieProps = (
   const vote = 0;
   const genres = type === TYPE.MOVIE ? getSimpleGenreName(movie) : []; // write fn compare
   const onVote = () => {};
-  const movieInfo: MovieInfoType = { title: movie.title, year: movie.release_date };
-  const rate: RateType = { average: movie.vote_average, count: movie.vote_count };
+  const moviesProps = createMoviesProps(movie);
   const extra: MovieExtraInfo = {
     budget: movie.budget,
     runtime: movie.runtime,
@@ -106,10 +125,7 @@ export const createMovieProps = (
     release: movie.release_date,
   };
   return {
-    id: movie.id,
-    movie: movieInfo,
-    rate,
-    source: movie.poster_path,
+    ...moviesProps,
     vote,
     type,
     genres,
