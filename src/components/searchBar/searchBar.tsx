@@ -1,7 +1,7 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import { TextInput, Button, Group, Title } from '@mantine/core';
+import React, { ChangeEvent, useState } from 'react';
+import { Button, Group, TextInput, Title } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearSearchFilter, setSearchFilter } from '@/store/slices/ratedSlice';
+import { setSearchFilter } from '@/store/slices/ratedSlice';
 import { AppDispatchType } from '@/store';
 import s from './styles.module.scss';
 import SearchIcon from '@/assets/icons/searchIcon';
@@ -18,12 +18,6 @@ const SearchBar = () => {
   const onButtonHandler = () => {
     dispatch<AppDispatchType>(setSearchFilter(text));
   };
-  useEffect(
-    () => () => {
-      dispatch(clearSearchFilter());
-    },
-    []
-  );
 
   return (
     <Group className={s.search}>

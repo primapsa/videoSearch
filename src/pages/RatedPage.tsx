@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import Page from '@/components/page/page';
 import Rated from '@/components/rated/rated';
 import { APP_STATUSES } from '@/constants';
-import { setRatedStatus } from '@/store/slices/ratedSlice';
+import { clearSearchFilter, setRatedStatus } from '@/store/slices/ratedSlice';
 
 const RatedPage = () => {
   const dispatch = useDispatch();
@@ -11,6 +11,7 @@ const RatedPage = () => {
   useEffect(
     () => () => {
       dispatch(setRatedStatus(APP_STATUSES.IDLE));
+      dispatch(clearSearchFilter());
     },
     []
   );
