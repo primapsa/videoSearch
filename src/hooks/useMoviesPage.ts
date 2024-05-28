@@ -45,8 +45,8 @@ const UseMoviesPage = () => {
   }, [filters]);
 
   useEffect(() => {
-    const query = { ...filters, page: pages + 1 };
-    const queryToFetch = transformToQuery(query);
+    const queryFilter = { ...filters, page: pages + 1 };
+    const queryToFetch = transformToQuery(queryFilter);
     !!queryToFetch && dispatch<AppDispatchType>(fetchMovies(queryToFetch));
   }, [filters, pages]);
 
