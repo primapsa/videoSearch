@@ -76,6 +76,13 @@ export const formattMinutes = (min: number) => {
   const formattedMinutes = minutes ? `${String(minutes).padStart(2, '0')}m` : '';
   return `${formattedHours} ${formattedMinutes}` || '-';
 };
+export const getPagedMovies = (allRated: MovieType[] | null, page: number): null | MovieType[] => {
+  if (!allRated) return null;
+  const position = page * ITEM_PER_PAGE;
+  return allRated.slice(position, Math.min(allRated.length, position + ITEM_PER_PAGE));
+};
+
+export const getTotalPages = (all: number): number => Math.ceil(all / ITEM_PER_PAGE);
 export const dateFormatt = (date: string) =>
   new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',

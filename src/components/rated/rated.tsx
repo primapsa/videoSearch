@@ -1,64 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { SimpleGrid, Stack } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { SearchBar } from '@/components/searchBar';
-import { getRated, getRatedFetched, getRatedFilter, getRatedStatus } from '@/store/selectors';
-import { APP_STATUSES, ITEM_PER_PAGE, PATH, TYPE } from '@/constants';
-import { createMovieProps, getSimpleGenreName } from '@/components/utils';
+import { getRated, getRatedStatus } from '@/store/selectors';
+import { APP_STATUSES, PATH, TYPE } from '@/constants';
+import { createMovieProps, getSimpleGenreName, getTotalPages } from '@/components/utils';
 import { fetchRated } from '@/store/slices/ratedSlice';
 import { AppDispatchType } from '@/store';
 import { MovieCard } from '@/components/movieCard';
-import { MovieType } from '@/types/movie';
 import { Pagination } from '@/components/pagination';
 import s from './styles.module.scss';
 import useRatedModal from '@/hooks/useRatedModal';
 import { Modal } from '@/components/modal';
 import { withEmptyContent, withLoading } from '@/HOC';
 import { EmptyRated } from '@/components/emptyContent';
+import useRatedPage from '@/hooks/useRatedPage';
+import useRated from '@/hooks/useRated';
 
 const Rated = () => {
   const dispatch = useDispatch();
-  const rated = useSelector(getRated);
-  const fetched = useSelector(getRatedFetched);
   const votes = useSelector(getRated);
-  const filter = useSelector(getRatedFilter);
-  const ratedId = Object.keys(rated).map((id) => Number(id));
   const status = useSelector(getRatedStatus);
-
   const { modal, setModal, onModalClose, onModalSave } = useRatedModal();
-  const [movies, setMovies] = useState<MovieType[]>([]);
-  const [page, setPage] = useState<number>(0);
+  const { ratedId, movies } = useRated();
+  const { page, onPageChange, pagedMovies } = useRatedPage(movies);
+  const total = getTotalPages(movies.length);
 
   const isLoading = status === APP_STATUSES.LOADING;
   const isEmptyState = status === APP_STATUSES.SUCCESS && !movies.length;
-  const total = Math.ceil(movies.length / ITEM_PER_PAGE);
-  const getPagedMovies = (allRated: MovieType[] | null) => {
-    if (!allRated) return null;
-    const position = page * ITEM_PER_PAGE;
-    return allRated.slice(position, Math.min(allRated.length, position + ITEM_PER_PAGE));
-  };
-
-  useEffect(() => {
-    if (!filter) return;
-    const filtered = movies.filter((ratedItem) =>
-      ratedItem.original_title.toLowerCase().startsWith(filter.toLowerCase())
-    );
-    setMovies(filtered);
-  }, [filter]);
-  const onPageChange = (currentPage: number) => {
-    setPage(currentPage);
-  };
-
-  useEffect(() => {
-    fetched && setMovies(fetched);
-  }, [fetched]);
 
   useEffect(() => {
     dispatch<AppDispatchType>(fetchRated({ ids: ratedId, query: '' }));
   }, []);
 
-  const ratedMovies = getPagedMovies(movies)?.map((movieItem) => {
+  const ratedMovies = pagedMovies?.map((movieItem) => {
     const vote = votes[movieItem.id] || 0;
     const genresNames = getSimpleGenreName(movieItem);
     const onVoteHandler = (idv: number) => {
@@ -87,6 +63,7 @@ const Rated = () => {
       <Pagination total={total} onChange={onPageChange} page={page} />
     </Stack>
   );
+
   const ContentWithEmtyState = withEmptyContent(Content, EmptyRated, isEmptyState);
   const ContentWithLoading = withLoading(ContentWithEmtyState, isLoading);
 
