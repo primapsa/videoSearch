@@ -9,12 +9,16 @@ const Companies = ({ list }: CompaniesProps) => {
     <Company key={logo_path} name={name} logo_path={logo_path} />
   ));
   return (
-    <Stack className={s.stack}>
-      <Title className={s.title} order={4}>
-        Production
-      </Title>
-      <Stack className={s.companies}>{companies}</Stack>
-    </Stack>
+    <>
+      {!!list?.length && (
+        <Stack className={s.stack}>
+          <Title className={s.title} order={4}>
+            Production
+          </Title>
+          <Stack className={s.companies}>{companies}</Stack>
+        </Stack>
+      )}
+    </>
   );
 };
 

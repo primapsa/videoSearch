@@ -26,7 +26,7 @@ export const formattViews = (views: number): string => {
   if (views >= 1000) {
     return `(${(views / 1000).toFixed(1)}K)`;
   }
-  return `(${views.toString()})`;
+  return `(${views?.toString() || ''})`;
 };
 export const generateNumbers = (from: number, to: number): string[] => {
   const numbers = [];
@@ -64,12 +64,14 @@ export const getTrailer = (videos: TrailerContainer): string | null => {
   const trailer = trailers.find((item) => item.type === TRAILER_TYPE.TRAILER);
   return trailer ? trailer.key : null;
 };
-export const getGenresName = (genres: GenreType[], genresId: number[]): string[] =>
-  genresId.reduce((names, id) => {
+export const getGenresName = (genres: GenreType[], genresId: number[]): string[] => {
+  if (!genresId) return [];
+  return genresId.reduce((names, id) => {
     const genre = genres.find((e) => e.id === id);
     return genre ? [...names, genre.name] : names;
   }, [] as string[]);
-export const getYear = (date: string) => new Date(date).getFullYear();
+};
+export const getYear = (date: string) => new Date(date).getFullYear() || '-';
 export const limitArray = (arr: string[], limit: number): string[] =>
   limit ? arr.slice(0, Math.min(limit, arr.length)) : arr;
 export const getApiPage = (current: number) => {
@@ -77,11 +79,12 @@ export const getApiPage = (current: number) => {
   return Math.floor(API_ITEM_PER_PAGE / multply);
 };
 export const formattMinutes = (min: number) => {
+  if (!min) return '-';
   const hours = Math.floor(min / 60);
   const minutes = min % 60;
   const formattedHours = hours ? `${hours}h` : '';
   const formattedMinutes = minutes ? `${String(minutes).padStart(2, '0')}m` : '';
-  return `${formattedHours} ${formattedMinutes}` || '-';
+  return `${formattedHours} ${formattedMinutes}`;
 };
 export const getPagedMovies = (allRated: MovieType[] | null, page: number): null | MovieType[] => {
   if (!allRated) return null;
@@ -91,12 +94,16 @@ export const getPagedMovies = (allRated: MovieType[] | null, page: number): null
 
 export const getTotalPages = (all: number): number => Math.ceil(all / ITEM_PER_PAGE);
 export const getTotalPagesLimit = (all: number) => Math.min(getTotalPages(all), MAX_PAGES);
-export const dateFormatt = (date: string) =>
-  new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  }) || '-';
+export const dateFormatt = (date: string) => {
+  if (!date) return '-';
+  return (
+    new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }) || '-'
+  );
+};
 export const getSimpleGenreName = (movies: MovieType) => movies.genres.map((genre) => genre.name);
 export const createMoviesProps = (movie: MovieTypeShort | MovieType | MovieWithTrailer) => {
   const { id } = movie;
